@@ -226,3 +226,6 @@ Mañana puede escribir el formato PDF desde cero.
 
 El valor está en el DSL y el layout.
 El backend es reemplazable.
+
+## Autor
+[![Jesús Sandoval](https://img.shields.io/badge/Jesús%20Sandoval-GitHub-000000?logo=github&logoColor=white)](https://github.com/jesusando)
