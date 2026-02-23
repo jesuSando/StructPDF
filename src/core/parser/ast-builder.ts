@@ -1,6 +1,7 @@
 import { TAG_DEFINITIONS, TagType } from '../../dsl/tags-definition';
 import { PDFNode, TextNode, ContainerNode } from '../ast/nodes';
 import { RawNode } from './xml-parser';
+import { parseInlineStyle } from '../styles/resolver';
 
 export class ASTBuilder {
     build(rawNodes: RawNode[]): PDFNode[] {
@@ -14,7 +15,7 @@ export class ASTBuilder {
             throw new Error(`Unknown tag: ${rawNode.name}`);
         }
 
-        if (tagDef.name === 'pdf-text' && !rawNode.content && !rawNode.children) {
+        if (tagDef.name === 'pdf-text' && !rawNode.content?.trim()) {
             throw new Error('pdf-text tag must have content');
         }
 
@@ -22,11 +23,17 @@ export class ASTBuilder {
             throw new Error(`${rawNode.name} tag cannot have direct content`);
         }
 
-        const props = this.processAttributes(rawNode.attributes, tagDef.attributes);
+        const rawStyle = rawNode.attributes?.style;
+        const style = parseInlineStyle(rawStyle);
+
+        const { style: _, ...cleanAttributes } = rawNode.attributes || {};
+
+        const props = this.processAttributes(cleanAttributes, tagDef.attributes);
 
         const baseNode = {
             type: rawNode.name as TagType,
-            props
+            props,
+            style
         };
 
         if (rawNode.name === 'pdf-text') {

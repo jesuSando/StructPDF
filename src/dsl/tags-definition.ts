@@ -25,11 +25,10 @@ export const TAG_DEFINITIONS: Record<TagType, TagDefinition> = {
         allowedChildren: ['pdf-stack', 'pdf-row', 'pdf-box', 'pdf-text'],
         canHaveContent: false,
         attributes: {
-            size: { type: 'string', default: 'A4' },
-            padding: { type: 'number', default: 0 },
-            background: { type: 'string' }
+            size: { type: 'string', default: 'A4' }
         }
     },
+
     'pdf-stack': {
         name: 'pdf-stack',
         allowedChildren: ['pdf-stack', 'pdf-row', 'pdf-box', 'pdf-text'],
@@ -38,6 +37,7 @@ export const TAG_DEFINITIONS: Record<TagType, TagDefinition> = {
             gap: { type: 'number', default: 0 }
         }
     },
+
     'pdf-row': {
         name: 'pdf-row',
         allowedChildren: ['pdf-box', 'pdf-text'],
@@ -46,26 +46,21 @@ export const TAG_DEFINITIONS: Record<TagType, TagDefinition> = {
             gap: { type: 'number', default: 0 }
         }
     },
+
     'pdf-box': {
         name: 'pdf-box',
         allowedChildren: ['pdf-stack', 'pdf-row', 'pdf-box', 'pdf-text'],
         canHaveContent: false,
         attributes: {
-            width: { type: 'percentage' },
-            height: { type: 'percentage' },
-            padding: { type: 'number', default: 0 },
-            background: { type: 'string' }
+            width: { type: 'percentage' },  // layout
+            height: { type: 'percentage' }  // layout
         }
     },
+
     'pdf-text': {
         name: 'pdf-text',
         allowedChildren: [],
         canHaveContent: true,
-        attributes: {
-            size: { type: 'number', default: 12 },
-            bold: { type: 'boolean', default: false },
-            color: { type: 'string', default: '#000000' },
-            align: { type: 'string', default: 'left', values: ['left', 'center', 'right'] }
-        }
+        attributes: {}
     }
 };

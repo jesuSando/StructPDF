@@ -21,8 +21,8 @@ describe('StructPDF Parser', () => {
     expect(ast[0].content).toBe('Hello World');
   });
 
-  test('should parse element with attributes', () => {
-    const xml = '<pdf-text size="18" bold="true">Hello</pdf-text>';
+  test('should parse inline style', () => {
+    const xml = '<pdf-text style="font-size:18; font-weight:bold;">Hello</pdf-text>';
     const raw = parser.parse(xml);
     const ast = builder.build(raw);
 
@@ -30,23 +30,7 @@ describe('StructPDF Parser', () => {
       throw new Error('Expected text node');
     }
 
-    expect(ast[0].props.size).toBe(18);
-    expect(ast[0].props.bold).toBe(true);
-  });
-
-  test('should apply default values', () => {
-    const xml = '<pdf-text>Hello</pdf-text>';
-    const raw = parser.parse(xml);
-    const ast = builder.build(raw);
-
-    if (!isTextNode(ast[0])) {
-      throw new Error('Expected text node');
-    }
-
-    expect(ast[0].props.size).toBe(12);
-    expect(ast[0].props.bold).toBe(false);
-    expect(ast[0].props.color).toBe('#000000');
-    expect(ast[0].props.align).toBe('left');
+    expect(ast[0].style?.fontSize).toBe(18);
   });
 
   test('should parse nested structure', () => {

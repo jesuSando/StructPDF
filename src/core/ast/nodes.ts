@@ -1,32 +1,21 @@
 import { TagType } from '../../dsl/tags-definition';
+import { StyleObject } from './types';
 
 export interface BaseNode {
     type: TagType;
-    props: Record<string, any>;
+    props: Record<string, any>; // SOLO props estructurales
+    style: StyleObject;         // TODO lo visual
     children?: BaseNode[];
 }
 
 export interface TextNode extends BaseNode {
     type: 'pdf-text';
     content: string;
-    props: {
-        size: number;
-        bold: boolean;
-        color: string;
-        align: 'left' | 'center' | 'right';
-    };
 }
 
 export interface ContainerNode extends BaseNode {
     type: Exclude<TagType, 'pdf-text'>;
     children: BaseNode[];
-    props: {
-        gap?: number;
-        width?: string | number;
-        height?: string | number;
-        padding?: number;
-        background?: string;
-    };
 }
 
 export type PDFNode = TextNode | ContainerNode;
