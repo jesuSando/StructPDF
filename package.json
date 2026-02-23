@@ -4,7 +4,7 @@
   "description": "Este proyecto es un motor declarativo para generar documentos PDF usando un DSL (Domain-Specific Language) propio, diseñado específicamente para describir layouts de documentos estructurados.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
