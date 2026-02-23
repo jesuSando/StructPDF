@@ -38,25 +38,34 @@ export class XMLParser {
     private normalizeNode(name: string, data: any): RawNode {
         const node: RawNode = {
             name,
-            attributes: data[':attributes'] || {},
+            attributes: {},
         };
 
         if (typeof data === 'string') {
             node.content = data;
-        } else if (data['#text']) {
-            node.content = data['#text'];
+            return node;
         }
-
+        // Separar atributos (primitivos) de children (objetos)
         const children: RawNode[] = [];
+
         for (const key in data) {
-            if (key !== ':attributes' && key !== '#text') {
-                if (Array.isArray(data[key])) {
-                    data[key].forEach((child: any) => {
+            const value = data[key];
+
+            if (key === '#text') {
+                node.content = value;
+            }
+            else if (typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    value.forEach(child => {
                         children.push(this.normalizeNode(key, child));
                     });
                 } else {
-                    children.push(this.normalizeNode(key, data[key]));
+                    children.push(this.normalizeNode(key, value));
                 }
+            }
+            else {
+                // Es atributo
+                node.attributes[key] = value;
             }
         }
 

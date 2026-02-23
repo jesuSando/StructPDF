@@ -75,7 +75,16 @@ export class ASTBuilder {
                     result[key] = parseFloat(value);
                     break;
                 case 'boolean':
-                    result[key] = value === 'true' || value === '1' || value === '';
+                    if (typeof value === 'boolean') {
+                        result[key] = value;
+                    } else if (typeof value === 'string') {
+                        result[key] =
+                            value.toLowerCase() === 'true' ||
+                            value === '1' ||
+                            value === '';
+                    } else {
+                        result[key] = false;
+                    }
                     break;
                 case 'percentage':
                     result[key] = value.toString();
